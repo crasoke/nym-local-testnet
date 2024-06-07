@@ -1,0 +1,76 @@
+services:
+  # genesis_validator:
+  #   build:
+  #     context: docker/validator
+  #   image: validator:latest
+  #   container_name: genesis_validator
+  #   volumes:
+  #     - ./data/genesis_volume:/genesis_volume
+  #     # - "genesis_nyxd:/root/.nyxd"
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.2
+  #   command: ["genesis"]
+
+  # secondary_validator:
+  #   build:
+  #     context: docker/validator
+  #   image: validator:latest
+  #   container_name: secondary_validator
+  #   volumes:
+  #     - ./data/genesis_volume:/genesis_volume
+  #     - ./data/contract_volume:/contract_volume
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.3
+  #   depends_on:
+  #     - "genesis_validator"
+  #   command: ["secondary"]
+
+  mixnet_contract:
+    build: 
+      context: docker/mixnet_contract
+    image: mixnet_contract:latest
+    container_name: mixnet_contract
+    volumes:
+      - ./data/contract_volume:/contract_volume
+
+  # exlplorerdb:
+  #   image: postgres:latest
+  #   container_name: exlplorerdb
+  #   environment:
+  #    - POSTGRES_PASSWORD=wsadwsad
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.4
+  # exlplorer:
+  #   image: debian:latest
+  #   container_name: exlplorer
+  #   command: tail -f /dev/null
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.5
+  # mix1:
+  #   build:
+  #     context: docker/mixnode
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.10
+
+  # mix2:
+  #   build:
+  #     context: docker/mixnode
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.20
+
+  # gateway:
+  #   build:
+  #     context: docker/gateway
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 10.0.0.30
+# volumes:
+#   genesis_volume:
+#   genesis_nyxd:
+#   secondary_nyxd:
