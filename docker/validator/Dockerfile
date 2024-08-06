@@ -15,6 +15,6 @@ RUN wget ${RELEASE_URL} \
   && mv libwasmvm*.so /lib/x86_64-linux-gnu/ \
   && rm ${ARCHIVE_NAME}
 
-COPY init_and_start.sh .
-
-ENTRYPOINT ["./init_and_start.sh"]
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
