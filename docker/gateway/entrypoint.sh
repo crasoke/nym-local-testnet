@@ -1,9 +1,12 @@
 #!/bin/sh
-while ! [ -f "/bin_volume/nym-node" ] || ! [ -s "/nyx_volume/mixnet_contract_address" ] || ! [ -s "/nyx_volume/vesting_contract_address" ]; do
+while ! [ -f "/bin_volume/nym-node" ] || ! [ -s "$(cat /nyx_volume/${GATEWAY_NAME}_mnemonic)" ]; do
   sleep 1
 done
 
-sleep 20
+until curl --output /dev/null --silent --head --fail http://10.0.0.99/v1/api-status/health; do
+  echo "Waiting for nym API..."
+  sleep 5
+done
 
 if [ ! -f "/root/nym-node" ]; then
   cp /bin_volume/nym-node /bin_volume/nym-cli /root
