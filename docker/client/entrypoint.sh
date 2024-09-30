@@ -3,7 +3,15 @@ while ! [ -f "/bin_volume/nym-client" ] || ! [ -s "/nyx_volume/mixnet_contract_a
   sleep 1
 done
 
-sleep 600
+until curl --output /dev/null --silent --head --fail http://10.0.0.99/v1/api-status/health; do
+  echo "Waiting for nym API..."
+  sleep 10
+done
+
+while [ "$(curl -s http://10.0.0.99/v1/mixnodes/active)" = "[]" ]; do
+    echo "Waiting for Mixnodes to be selected..."
+    sleep 20
+done
 
 if [ ! -f "/root/nym-node" ]; then
   cp /bin_volume/nym-client /root/
